@@ -205,6 +205,7 @@
 #define BOARD_ULTRATRONICS_PRO 1560   // ReprapWorld Ultratronics Pro V1.0
 #define BOARD_ARCHIM2          1590   // UltiMachine Archim2 (with TMC2130 drivers)
 #define BOARD_ALLIGATOR        1602   // Alligator Board R2
+#define BOARD_OULWARE          1603   // Oulware Board v1.5
 
 //
 // STM32 ARM Cortex-M3

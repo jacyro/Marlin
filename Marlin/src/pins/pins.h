@@ -355,6 +355,8 @@
   #include "pins_ARCHIM2.h"           // SAM3X8E                                    env:DUE env:DUE_debug
 #elif MB(ALLIGATOR)
   #include "pins_ALLIGATOR_R2.h"      // SAM3X8E                                    env:DUE env:DUE_debug
+#elif MB(OULWARE)
+  #include "pins_OULWARE.h"           // SAM3X8E                                    env:DUE env:DUE_USB env:DUE_debug
 
 //
 // STM32 ARM Cortex-M3
