@@ -100,21 +100,21 @@
 #define X_DIR_PIN          55
 #define X_ENABLE_PIN       38
 #ifndef X_CS_PIN
-  #define X_CS_PIN         53
+  #define X_CS_PIN         4
 #endif
 
 #define Y_STEP_PIN         60
 #define Y_DIR_PIN          61
 #define Y_ENABLE_PIN       56
 #ifndef Y_CS_PIN
-  #define Y_CS_PIN         49
+  #define Y_CS_PIN         5
 #endif
 
 #define Z_STEP_PIN         46
 #define Z_DIR_PIN          48
 #define Z_ENABLE_PIN       62
 #ifndef Z_CS_PIN
-  #define Z_CS_PIN         40
+  #define Z_CS_PIN         6
 #endif
 
 #define E0_STEP_PIN        26
@@ -136,13 +136,13 @@
  */
 #if ENABLED(TMC_USE_SW_SPI)
   #ifndef TMC_SW_MOSI
-    #define TMC_SW_MOSI    66
+    #define TMC_SW_MOSI    40
   #endif
   #ifndef TMC_SW_MISO
-    #define TMC_SW_MISO    44
+    #define TMC_SW_MISO    42
   #endif
   #ifndef TMC_SW_SCK
-    #define TMC_SW_SCK     64
+    #define TMC_SW_SCK     44
   #endif
 #endif
 
@@ -420,6 +420,8 @@
   #if ENABLED(NEWPANEL)
 
     #if ENABLED(REPRAP_DISCOUNT_SMART_CONTROLLER)
+
+      #define LCD_SCREEN_ROT_180
 
       #define BEEPER_PIN        37
 
