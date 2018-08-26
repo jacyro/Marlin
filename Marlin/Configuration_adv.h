@@ -1161,10 +1161,10 @@
    * The default SW SPI pins are defined the respective pins files,
    * but you can override or define them here.
    */
-  #define TMC_USE_SW_SPI
-  #define TMC_SW_MOSI       40
-  #define TMC_SW_MISO       42
-  #define TMC_SW_SCK        44
+  //#define TMC_USE_SW_SPI
+  //define TMC_SW_MOSI       40
+  //#define TMC_SW_MISO       42
+  //#define TMC_SW_SCK        44
 
   /**
    * Use Trinamic's ultra quiet stepping mode.
@@ -1197,14 +1197,14 @@
    * STEALTHCHOP needs to be enabled.
    * M913 X/Y/Z/E to live tune the setting
    */
-  //#define HYBRID_THRESHOLD
+  #define HYBRID_THRESHOLD
 
-  #define X_HYBRID_THRESHOLD     100  // [mm/s]
+  #define X_HYBRID_THRESHOLD     50  // [mm/s]
   #define X2_HYBRID_THRESHOLD    100
-  #define Y_HYBRID_THRESHOLD     100
+  #define Y_HYBRID_THRESHOLD     50
   #define Y2_HYBRID_THRESHOLD    100
-  #define Z_HYBRID_THRESHOLD       3
-  #define Z2_HYBRID_THRESHOLD      3
+  #define Z_HYBRID_THRESHOLD       1
+  #define Z2_HYBRID_THRESHOLD      1
   #define E0_HYBRID_THRESHOLD     30
   #define E1_HYBRID_THRESHOLD     30
   #define E2_HYBRID_THRESHOLD     30

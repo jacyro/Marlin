@@ -133,7 +133,7 @@
 // The following define selects which electronics board you have.
 // Please choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_RAMPS4DUE_EFB //BOARD_RAMPS_13_EFB  //BOARD_RAMPS4DUE_EFB für DUE Mod
+  #define MOTHERBOARD BOARD_OULWARE  //BOARD_RAMPS4DUE_EFB für DUE Mod
 #endif
 
 // Optional custom name for your RepStrap or other custom machine
@@ -567,7 +567,7 @@
  */
 #define X_DRIVER_TYPE  TMC2130
 #define Y_DRIVER_TYPE  TMC2130
-#define Z_DRIVER_TYPE  TMC2130
+#define Z_DRIVER_TYPE  A4988
 //#define X2_DRIVER_TYPE A4988
 //#define Y2_DRIVER_TYPE A4988
 //#define Z2_DRIVER_TYPE A4988
@@ -793,7 +793,7 @@
  */
 #define X_PROBE_OFFSET_FROM_EXTRUDER 28  // X offset: -left  +right  [of the nozzle]
 #define Y_PROBE_OFFSET_FROM_EXTRUDER 12  // Y offset: -front +behind [the nozzle]
-#define Z_PROBE_OFFSET_FROM_EXTRUDER -0.70   // Z offset: -below +above  [the nozzle]
+#define Z_PROBE_OFFSET_FROM_EXTRUDER -0.80   // Z offset: -below +above  [the nozzle]
 
 // Certain types of probes need to stay away from edges
 #define MIN_PROBE_EDGE 10
@@ -1242,7 +1242,7 @@
 #define EEPROM_SETTINGS // Enable for M500 and M501 commands
 //#define DISABLE_M503    // Saves ~2700 bytes of PROGMEM. Disable for release!
 #define EEPROM_CHITCHAT   // Give feedback on EEPROM commands. Disable to save PROGMEM.
-#define DEBUG_EEPROM_READWRITE
+//#define DEBUG_EEPROM_READWRITE
 
 //
 // Host Keepalive
