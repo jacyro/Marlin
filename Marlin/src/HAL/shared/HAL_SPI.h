@@ -19,14 +19,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+#pragma once
 
 /**
  * HAL/HAL_SPI.h
  * Core Marlin definitions for SPI, implemented in the HALs
  */
-
-#ifndef _HAL_SPI_H_
-#define _HAL_SPI_H_
 
 #include <stdint.h>
 
@@ -64,7 +62,7 @@
 #define SPI_DATAMODE_3 0x0C
 
 // Standard SPI functions
-/** Initialise SPI bus */
+/** Initialize SPI bus */
 void spiBegin(void);
 /** Configure SPI for specified SPI speed */
 void spiInit(uint8_t spiRate);
@@ -78,5 +76,3 @@ void spiRead(uint8_t* buf, uint16_t nbyte);
 void spiSendBlock(uint8_t token, const uint8_t* buf);
 /** Begin SPI transaction, set clock, bit order, data mode */
 void spiBeginTransaction(uint32_t spiClock, uint8_t bitOrder, uint8_t dataMode);
-
-#endif // _HAL_SPI_H_

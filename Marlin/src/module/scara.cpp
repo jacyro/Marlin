@@ -60,12 +60,7 @@ void scara_set_axis_is_at_home(const AxisEnum axis) {
 
     current_position[axis] = cartes[axis];
 
-    /**
-     * SCARA home positions are based on configuration since the actual
-     * limits are determined by the inverse kinematic transform.
-     */
-    soft_endstop_min[axis] = base_min_pos(axis); // + (cartes[axis] - base_home_pos(axis));
-    soft_endstop_max[axis] = base_max_pos(axis); // + (cartes[axis] - base_home_pos(axis));
+    update_software_endstops(axis);
   }
 }
 
@@ -104,7 +99,7 @@ void forward_kinematics_SCARA(const float &a, const float &b) {
  * Maths and first version by QHARLEY.
  * Integrated into Marlin and slightly restructured by Joachim Cerny.
  */
-void inverse_kinematics(const float raw[XYZ]) {
+void inverse_kinematics(const float (&raw)[XYZ]) {
 
   static float C2, S2, SK1, SK2, THETA, PSI;
 
@@ -147,8 +142,8 @@ void inverse_kinematics(const float raw[XYZ]) {
 }
 
 void scara_report_positions() {
-  SERIAL_PROTOCOLPAIR("SCARA Theta:", planner.get_axis_position_degrees(A_AXIS));
-  SERIAL_PROTOCOLLNPAIR("   Psi+Theta:", planner.get_axis_position_degrees(B_AXIS));
+  SERIAL_ECHOPAIR("SCARA Theta:", planner.get_axis_position_degrees(A_AXIS));
+  SERIAL_ECHOLNPAIR("   Psi+Theta:", planner.get_axis_position_degrees(B_AXIS));
   SERIAL_EOL();
 }
 

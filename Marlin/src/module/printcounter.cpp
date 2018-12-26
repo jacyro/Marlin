@@ -39,8 +39,6 @@ printStatistics PrintCounter::data;
 
 const PrintCounter::promdress PrintCounter::address = STATS_EEPROM_ADDRESS;
 
-const uint16_t PrintCounter::updateInterval = 10;
-const uint16_t PrintCounter::saveInterval = 3600;
 millis_t PrintCounter::lastDuration;
 bool PrintCounter::loaded = false;
 
@@ -74,7 +72,6 @@ void PrintCounter::initStats() {
   data = { 0, 0, 0, 0, 0.0 };
 
   saveStats();
-
   persistentStore.access_start();
   persistentStore.write_data(address, (uint8_t)0x16);
   persistentStore.access_finish();
@@ -114,7 +111,7 @@ void PrintCounter::saveStats() {
 void PrintCounter::showStats() {
   char buffer[21];
 
-  SERIAL_PROTOCOLPGM(MSG_STATS);
+  SERIAL_ECHOPGM(MSG_STATS);
 
   SERIAL_ECHOPGM("Prints: ");
   SERIAL_ECHO(data.totalPrints);
@@ -127,7 +124,7 @@ void PrintCounter::showStats() {
     - ((isRunning() || isPaused()) ? 1 : 0));
 
   SERIAL_EOL();
-  SERIAL_PROTOCOLPGM(MSG_STATS);
+  SERIAL_ECHOPGM(MSG_STATS);
 
   duration_t elapsed = data.printTime;
   elapsed.toString(buffer);
@@ -154,7 +151,7 @@ void PrintCounter::showStats() {
   #endif
 
   SERIAL_EOL();
-  SERIAL_PROTOCOLPGM(MSG_STATS);
+  SERIAL_ECHOPGM(MSG_STATS);
 
   SERIAL_ECHOPGM("Filament used: ");
   SERIAL_ECHO(data.filamentUsed / 1000);
@@ -166,27 +163,20 @@ void PrintCounter::showStats() {
 void PrintCounter::tick() {
   if (!isRunning()) return;
 
-  static uint32_t update_last = millis(),
-                  eeprom_last = millis();
-
   millis_t now = millis();
 
-  // Trying to get the amount of calculations down to the bare min
-  const static uint16_t i = updateInterval * 1000;
-
-  if (now - update_last >= i) {
+  static uint32_t update_next; // = 0
+  if (ELAPSED(now, update_next)) {
     #if ENABLED(DEBUG_PRINTCOUNTER)
       debug(PSTR("tick"));
     #endif
-
     data.printTime += deltaDuration();
-    update_last = now;
+    update_next = now + updateInterval * 1000;
   }
 
-  // Trying to get the amount of calculations down to the bare min
-  const static millis_t j = saveInterval * 1000;
-  if (now - eeprom_last >= j) {
-    eeprom_last = now;
+  static uint32_t eeprom_next; // = 0
+  if (ELAPSED(now, eeprom_next)) {
+    eeprom_next = now + saveInterval * 1000;
     saveStats();
   }
 }
