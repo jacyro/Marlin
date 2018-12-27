@@ -32,6 +32,10 @@
 
 HAL_SERVO_LIB servo[NUM_SERVOS];
 
+#if ENABLED(EDITABLE_SERVO_ANGLES)
+  uint16_t servo_angles[NUM_SERVOS][2];
+#endif
+
 void servo_init() {
   #if NUM_SERVOS >= 1 && HAS_SERVO_0
     servo[0].attach(SERVO0_PIN);
