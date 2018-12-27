@@ -87,7 +87,7 @@
 #define TEMP_BED_PIN       11   // Analog Input
 
 // SPI for Max6675 or Max31855 Thermocouple
-#define MAX6675_SS         47
+#define MAX6675_SS_PIN         47
 
 //
 // Heaters / Fans
