@@ -65,11 +65,24 @@
   #define E0_CS_PIN        48
 #endif
 
-#define E1_STEP_PIN        33
-#define E1_DIR_PIN         31
-#define E1_ENABLE_PIN      35
-#ifndef E1_CS_PIN
-  #define E1_CS_PIN        37
+#if ENABLED(Z_DUAL_STEPPER_DRIVERS)
+
+  #define Z2_STEP_PIN        33
+  #define Z2_DIR_PIN         31
+  #define Z2_ENABLE_PIN      35
+  #ifndef Z2_CS_PIN
+    #define Z2_CS_PIN        37
+  #endif
+
+#else
+
+  #define E1_STEP_PIN        33
+  #define E1_DIR_PIN         31
+  #define E1_ENABLE_PIN      35
+  #ifndef E1_CS_PIN
+    #define E1_CS_PIN        37
+  #endif
+
 #endif
 
 #define E2_STEP_PIN        41
@@ -112,7 +125,7 @@
 // Misc. Functions
 //
 #define SDSS                52
-//#define PS_ON_PIN          40
+//#define PS_ON_PIN          16
 
 //
 // I2C EEPROM
