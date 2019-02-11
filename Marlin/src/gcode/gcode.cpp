@@ -130,7 +130,7 @@ void GcodeSuite::dwell(millis_t time) {
     while (G29()) { // G29 should return true for failed probes ONLY
       if (retries--) {
         #ifdef G29_ACTION_ON_RECOVER
-          SERIAL_ECHOLNPGM("//action:" G29_ACTION_ON_RECOVER);
+          host_action(PSTR(G29_ACTION_ON_RECOVER));
         #endif
         #ifdef G29_RECOVER_COMMANDS
           process_subcommands_now_P(PSTR(G29_RECOVER_COMMANDS));
@@ -141,7 +141,7 @@ void GcodeSuite::dwell(millis_t time) {
           process_subcommands_now_P(PSTR(G29_FAILURE_COMMANDS));
         #endif
         #ifdef G29_ACTION_ON_FAILURE
-          SERIAL_ECHOLNPGM("//action:" G29_ACTION_ON_FAILURE);
+          host_action(PSTR(G29_ACTION_ON_FAILURE));
         #endif
         #if ENABLED(G29_HALT_ON_FAILURE)
           kill(PSTR(MSG_ERR_PROBING_FAILED));
@@ -270,6 +270,10 @@ void GcodeSuite::process_parsed_command(
         case 42: G42(); break;                                    // G42: Coordinated move to a mesh point
       #endif
 
+      #if ENABLED(CALIBRATION_GCODE)
+        case 425: G425(); break;                                  // G425: Perform calibration with calibration cube
+      #endif
+
       #if ENABLED(DEBUG_GCODE_PARSER)
         case 800: parser.debug(); break;                          // G800: GCode Parser Test for G
       #endif
@@ -285,8 +289,8 @@ void GcodeSuite::process_parsed_command(
       #endif
 
       #if ENABLED(SPINDLE_LASER_ENABLE)
-        case 3: M3_M4(true ); break;                              // M3: turn spindle/laser on, set laser/spindle power/speed, set rotation direction CW
-        case 4: M3_M4(false); break;                              // M4: turn spindle/laser on, set laser/spindle power/speed, set rotation direction CCW
+        case 3: M3_M4(false); break;                              // M3: turn spindle/laser on, set laser/spindle power/speed, set rotation direction CW
+        case 4: M3_M4(true ); break;                              // M4: turn spindle/laser on, set laser/spindle power/speed, set rotation direction CCW
         case 5: M5(); break;                                      // M5 - turn spindle/laser off
       #endif
 
@@ -336,7 +340,7 @@ void GcodeSuite::process_parsed_command(
         case 49: M49(); break;                                    // M49: Turn on or off G26 debug flag for verbose output
       #endif
 
-      #if ENABLED(LCD_SET_PROGRESS_MANUALLY) && (ENABLED(ULTRA_LCD) || ENABLED(EXTENSIBLE_UI))
+      #if ENABLED(LCD_SET_PROGRESS_MANUALLY)
         case 73: M73(); break;                                    // M73: Set progress percentage (for display on LCD)
       #endif
 
@@ -438,6 +442,9 @@ void GcodeSuite::process_parsed_command(
         case 164: M164(); break;                                  // M164: Save current mix as a virtual extruder
         #if ENABLED(DIRECT_MIXING_IN_G1)
           case 165: M165(); break;                                // M165: Set multiple mix weights
+        #endif
+        #if ENABLED(GRADIENT_MIX)
+          case 166: M166(); break;                                // M166: Set Gradient Mix
         #endif
       #endif
 
@@ -547,7 +554,7 @@ void GcodeSuite::process_parsed_command(
 
       #if ENABLED(EXT_SOLENOID) || ENABLED(MANUAL_SOLENOID_CONTROL)
         case 380: M380(); break;                                  // M380: Activate solenoid on active (or specified) extruder
-        case 381: M381(); break;                                  // M381: Disable all solenoids
+        case 381: M381(); break;                                  // M381: Disable all solenoids or, if MANUAL_SOLENOID_CONTROL, active (or specified) solenoid
       #endif
 
       case 400: M400(); break;                                    // M400: Finish all moves
@@ -555,6 +562,10 @@ void GcodeSuite::process_parsed_command(
       #if HAS_BED_PROBE
         case 401: M401(); break;                                  // M401: Deploy probe
         case 402: M402(); break;                                  // M402: Stow probe
+      #endif
+
+      #if ENABLED(PRUSA_MMU2)
+        case 403: M403(); break;
       #endif
 
       #if ENABLED(FILAMENT_WIDTH_SENSOR)
@@ -652,6 +663,9 @@ void GcodeSuite::process_parsed_command(
       #if HAS_TRINAMIC
         case 122: M122(); break;
         case 906: M906(); break;                                  // M906: Set motor current in milliamps using axis codes X, Y, Z, E
+        #if HAS_STEALTHCHOP
+          case 569: M569(); break;                                // M569: Enable stealthChop on an axis.
+        #endif
         #if ENABLED(MONITOR_DRIVER_STATUS)
           case 911: M911(); break;                                // M911: Report TMC2130 prewarn triggered flags
           case 912: M912(); break;                                // M912: Clear TMC2130 prewarn triggered flags
@@ -662,9 +676,14 @@ void GcodeSuite::process_parsed_command(
         #if USE_SENSORLESS
           case 914: M914(); break;                                // M914: Set StallGuard sensitivity.
         #endif
-        #if ENABLED(TMC_Z_CALIBRATION)
-          case 915: M915(); break;                                // M915: TMC Z axis calibration.
-        #endif
+      #endif
+
+      #if HAS_DRIVER(L6470)
+        case 122: M122(); break;                                   // M122: Report status
+        case 906: M906(); break;                                   // M906: Set or get motor drive level
+        case 916: M916(); break;                                   // M916: L6470 tuning: Increase drive level until thermal warning
+        case 917: M917(); break;                                   // M917: L6470 tuning: Find minimum current thresholds
+        case 918: M918(); break;                                   // M918: L6470 tuning: Increase speed until max or error
       #endif
 
       #if HAS_MICROSTEPS
@@ -672,7 +691,9 @@ void GcodeSuite::process_parsed_command(
         case 351: M351(); break;                                  // M351: Toggle MS1 MS2 pins directly, S# determines MS1 or MS2, X# sets the pin high/low.
       #endif
 
-      case 355: M355(); break;                                    // M355: Set case light brightness
+      #if HAS_CASE_LIGHT
+        case 355: M355(); break;                                  // M355: Set case light brightness
+      #endif
 
       #if ENABLED(DEBUG_GCODE_PARSER)
         case 800: parser.debug(); break;                          // M800: GCode Parser Test for M
@@ -689,6 +710,10 @@ void GcodeSuite::process_parsed_command(
         case 867: M867(); break;                                  // M867: Toggle error correction
         case 868: M868(); break;                                  // M868: Set error correction threshold
         case 869: M869(); break;                                  // M869: Report axis error
+      #endif
+
+      #if ENABLED(MAGNETIC_PARKING_EXTRUDER)
+        case 951: M951(); break;                                  // M951: Set Magnetic Parking Extruder parameters
       #endif
 
       #if ENABLED(Z_STEPPER_AUTO_ALIGN)
