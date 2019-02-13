@@ -198,12 +198,8 @@
 //#define SWITCHING_NOZZLE
 #if ENABLED(SWITCHING_NOZZLE)
   #define SWITCHING_NOZZLE_SERVO_NR 0
-<<<<<<< HEAD
-  #define SWITCHING_NOZZLE_SERVO_ANGLES { 0, 90 }   // Angles for E0, E1
-=======
   //#define SWITCHING_NOZZLE_E1_SERVO_NR 1          // If two servos are used, the index of the second
   #define SWITCHING_NOZZLE_SERVO_ANGLES { 0, 90 }   // Angles for E0, E1 (single servo) or lowered/raised (dual servo)
->>>>>>> 8d271f20febf09531ceb6da53beec2d034e669be
 #endif
 
 /**
@@ -227,8 +223,6 @@
   #define PARKING_EXTRUDER_PARKING_X { -78, 184 }     // X positions for parking the extruders
   #define PARKING_EXTRUDER_GRAB_DISTANCE 1            // (mm) Distance to move beyond the parking point to grab the extruder
   //#define MANUAL_SOLENOID_CONTROL                   // Manual control of docking solenoids with M380 S / M381
-<<<<<<< HEAD
-=======
 
   #if ENABLED(PARKING_EXTRUDER)
 
@@ -246,7 +240,6 @@
 
   #endif
 
->>>>>>> 8d271f20febf09531ceb6da53beec2d034e669be
 #endif
 
 /**
@@ -381,11 +374,7 @@
 #define TEMP_SENSOR_3 0
 #define TEMP_SENSOR_4 0
 #define TEMP_SENSOR_5 0
-<<<<<<< HEAD
 #define TEMP_SENSOR_BED 5
-=======
-#define TEMP_SENSOR_BED 0
->>>>>>> 8d271f20febf09531ceb6da53beec2d034e669be
 #define TEMP_SENSOR_CHAMBER 0
 
 // Dummy thermistor constant temperature readings, for use with 998 and 999
@@ -427,11 +416,7 @@
 #define HEATER_3_MAXTEMP 275
 #define HEATER_4_MAXTEMP 275
 #define HEATER_5_MAXTEMP 275
-<<<<<<< HEAD
 #define BED_MAXTEMP 130
-=======
-#define BED_MAXTEMP 150
->>>>>>> 8d271f20febf09531ceb6da53beec2d034e669be
 
 //===========================================================================
 //============================= PID Settings ================================
@@ -444,12 +429,8 @@
 #define PID_MAX BANG_MAX // Limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current
 #define PID_K1 0.95      // Smoothing factor within any PID loop
 #if ENABLED(PIDTEMP)
-<<<<<<< HEAD
-  //#define PID_AUTOTUNE_MENU     // Add PID Autotune to the LCD "Temperature" menu to run M303 and apply the result.
-=======
   //#define PID_EDIT_MENU         // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM)
   //#define PID_AUTOTUNE_MENU     // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM)
->>>>>>> 8d271f20febf09531ceb6da53beec2d034e669be
   //#define PID_DEBUG             // Sends debug data to the serial port.
   //#define PID_OPENLOOP 1        // Puts PID in open loop. M104/M140 sets the output power from 0 to PID_MAX
   //#define SLOW_PWM_HEATERS      // PWM with very low frequency (roughly 0.125Hz=8s) and minimum state time of approximately 1s useful for heaters driven by a relay
@@ -650,15 +631,9 @@
 #define Z_DRIVER_TYPE  A4988
 //#define X2_DRIVER_TYPE A4988
 //#define Y2_DRIVER_TYPE A4988
-<<<<<<< HEAD
 #define Z2_DRIVER_TYPE A4988
 //#define Z3_DRIVER_TYPE A4988
 #define E0_DRIVER_TYPE A4988
-=======
-//#define Z2_DRIVER_TYPE A4988
-//#define Z3_DRIVER_TYPE A4988
-//#define E0_DRIVER_TYPE A4988
->>>>>>> 8d271f20febf09531ceb6da53beec2d034e669be
 //#define E1_DRIVER_TYPE A4988
 //#define E2_DRIVER_TYPE A4988
 //#define E3_DRIVER_TYPE A4988
@@ -740,7 +715,7 @@
 //
 // Use Junction Deviation instead of traditional Jerk Limiting
 //
-//#define JUNCTION_DEVIATION
+#define JUNCTION_DEVIATION
 #if ENABLED(JUNCTION_DEVIATION)
   #define JUNCTION_DEVIATION_MM 0.02  // (mm) Distance from real junction edge
 #endif
@@ -827,7 +802,7 @@
  * A Fix-Mounted Probe either doesn't deploy or needs manual deployment.
  *   (e.g., an inductive probe or a nozzle-based probe-switch.)
  */
-//#define FIX_MOUNTED_PROBE
+#define FIX_MOUNTED_PROBE
 
 /**
  * Z Servo Probe, such as an endstop switch on a rotating arm.
@@ -838,7 +813,7 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-#define BLTOUCH
+//#define BLTOUCH
 #if ENABLED(BLTOUCH)
   #define BLTOUCH_DELAY 375   // (ms) Enable and increase if needed
 #endif
@@ -1009,11 +984,7 @@
 
 //#define UNKNOWN_Z_NO_RAISE // Don't raise Z (lower the bed) if Z is "unknown." For beds that fall when Z is powered off.
 
-<<<<<<< HEAD
-#define Z_HOMING_HEIGHT 5  // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
-=======
-//#define Z_HOMING_HEIGHT 4  // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
->>>>>>> 8d271f20febf09531ceb6da53beec2d034e669be
+#define Z_HOMING_HEIGHT 10  // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
                              // Be sure you have this distance over your Z_MAX_POS in case.
 
 // Direction of endstops when homing; 1=MAX, -1=MIN
@@ -1080,23 +1051,10 @@
   #define FIL_RUNOUT_PULLUP          // Use internal pullup for filament runout pins.
   //#define FIL_RUNOUT_PULLDOWN      // Use internal pulldown for filament runout pins.
 
-  // Set one or more commands to run on filament runout.
-  //  - Always applies to SD-card printing.
-  //  - Applies to host-based printing if ACTION_ON_FILAMENT_RUNOUT is not set.
+  // Set one or more commands to execute on filament runout.
+  // (After 'M412 H' Marlin will ask the host to handle the process.)
   #define FILAMENT_RUNOUT_SCRIPT "M600"
 
-<<<<<<< HEAD
-=======
-  // With this option, if filament runs out during host-based printing, Marlin
-  // will send "//action:<ACTION_ON_FILAMENT_RUNOUT>" to the host and let the
-  // host handle filament change. If left undefined the FILAMENT_RUNOUT_SCRIPT
-  // will be used on filament runout for both host-based and SD-card printing.
-  //
-  // The host must be able to respond to the //action: command set here.
-  //
-  //#define ACTION_ON_FILAMENT_RUNOUT "pause: filament_runout"
-
->>>>>>> 8d271f20febf09531ceb6da53beec2d034e669be
   // After a runout is detected, continue printing this length of filament
   // before executing the runout script. Useful for a sensor at the end of
   // a feed tube. Requires 4 bytes SRAM per sensor, plus 4 bytes overhead.
@@ -1442,17 +1400,8 @@
 #define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
 
 #define PREHEAT_2_LABEL       "PETG"
-#define PREHEAT_2_TEMP_HOTEND 230
-#define PREHEAT_2_TEMP_BED     85
-=======
-#define PREHEAT_1_TEMP_HOTEND 180
-#define PREHEAT_1_TEMP_BED     70
-#define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
-
-#define PREHEAT_2_LABEL       "ABS"
-#define PREHEAT_2_TEMP_HOTEND 240
-#define PREHEAT_2_TEMP_BED    110
->>>>>>> 8d271f20febf09531ceb6da53beec2d034e669be
+#define PREHEAT_2_TEMP_HOTEND 225
+#define PREHEAT_2_TEMP_BED     80
 #define PREHEAT_2_FAN_SPEED     0 // Value from 0 to 255
 
 /**
@@ -1997,8 +1946,7 @@
 //
 //#define EXTENSIBLE_UI
 
-<<<<<<< HEAD
-=======
+
 //=============================================================================
 //=============================== Graphical TFTs ==============================
 //=============================================================================
@@ -2008,7 +1956,6 @@
 //
 //#define MKS_ROBIN_TFT
 
->>>>>>> 8d271f20febf09531ceb6da53beec2d034e669be
 //=============================================================================
 //============================  Other Controllers  ============================
 //=============================================================================
